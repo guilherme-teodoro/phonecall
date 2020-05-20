@@ -311,7 +311,7 @@ function App() {
           </Switch>
         )}
       </Router>
-      <footer className="text-center pb-5 space-x-4">
+      <footer className="text-center py-5 space-x-4">
         <a href="https://github.com/guilherme-teodoro/phonecall" className="text-gray-600 border-b border-dashed border-gray-500">Código Fonte</a>
         <a href="mailto:guilherme.m.teodoro@gmail.com" className="text-gray-600 border-b border-dashed border-gray-500">Encontrou um erro?</a>
       </footer>
