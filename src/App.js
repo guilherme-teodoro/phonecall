@@ -20,7 +20,7 @@ import {
 function AddNumbers({ onAdd }) {
   const { handleSubmit, register, errors } = useForm();
   const onSubmit = ({ phoneBase }) => {
-    const people = [...Array(99).keys()].map((idx) => {
+    const people = [...Array(100).keys()].map((idx) => {
       const i = "" + idx;
       const number = phoneBase.substring(0, phoneBase.length - i.length) + i;
       return { phone: number, notes: "", status: "", name: "" };
