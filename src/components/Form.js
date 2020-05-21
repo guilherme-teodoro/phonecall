@@ -12,7 +12,7 @@ export const Input = React.forwardRef((props, ref) => {
   return (
     <input
       {...props}
-      className="p-3 border border-gray-400 rounded shadow-sm appearance-none w-full"
+      className="p-3 border h-12 bg-white border-gray-400 rounded shadow-sm appearance-none w-full"
       ref={ref}
     />
   );
