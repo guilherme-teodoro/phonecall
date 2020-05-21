@@ -2,7 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { AiOutlineDown, AiOutlineFilter } from "react-icons/ai";
+import { FiCode } from "react-icons/fi";
 import Layout from "../components/Layout";
+import Button from "../components/Button";
 
 function StatusBadge({ status }) {
   if (!status) {
@@ -33,7 +35,14 @@ function StatusBadge({ status }) {
   );
 }
 
-export default ({ people, phoneBase, onDelete, id }) => {
+export default ({
+  people,
+  phoneBase,
+  onDelete,
+  id,
+  onChangeList,
+  onAddList,
+}) => {
   const [filter, setFilter] = React.useState("all");
 
   return (
@@ -42,10 +51,32 @@ export default ({ people, phoneBase, onDelete, id }) => {
         <div className="space-y-4">
           <div className="space-y-2">
             <Layout.Subtitle>Lista de números</Layout.Subtitle>
-            <Layout.Title>
-              {parsePhoneNumberFromString(phoneBase, "BR").formatNational()}
-            </Layout.Title>
+            <div className="flex items-center">
+              <div className="flex-auto">
+                <div
+                  onClick={() => onChangeList()}
+                  className="flex text-gray-800 font-bold items-center shadow-sm border border-gray-400 rounded text-lg px-4 py-2"
+                >
+                  <span className="flex-auto">
+                    {parsePhoneNumberFromString(
+                      phoneBase,
+                      "BR"
+                    ).formatNational()}
+                  </span>
+                  <span>
+                    <FiCode className="transform rotate-90" />
+                  </span>
+                </div>
+              </div>
+              <div className="flex-none ml-4">
+                <Button.Add onClick={onAddList} />
+              </div>
+            </div>
           </div>
+        </div>
+      </header>
+      <div className="divide-y mt-3 divide-gray-200">
+        <div className="mt-12 mb-4 px-4">
           <div className="relative">
             <div className="pointer-events-none absolute inset-y-0 ml-2 left-0 flex items-center px-2 text-gray-700">
               <AiOutlineFilter />
@@ -68,8 +99,6 @@ export default ({ people, phoneBase, onDelete, id }) => {
             </div>
           </div>
         </div>
-      </header>
-      <div className="divide-y mt-8 divide-gray-200">
         {people
           .filter((p) => {
             if (filter === "all") {
@@ -110,7 +139,7 @@ export default ({ people, phoneBase, onDelete, id }) => {
               "As informações serão apagadas para sempre. Quer continuar?"
             );
             if (c) {
-              onDelete(id)
+              onDelete(id);
             }
           }}
           type="button"

@@ -12,8 +12,10 @@ import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { Form, Input, Label, Field, Textarea } from "./components/Form";
 import Button from "./components/Button";
 import Layout from "./components/Layout";
+import Modal from "./components/Modal";
 import Home from "./containers/Home";
 import List from "./containers/List";
+import AddList from "./forms/AddList";
 import {
   AiOutlineArrowLeft,
   AiOutlineWhatsApp,
@@ -26,6 +28,46 @@ import {
   ToastsStore,
   ToastsContainerPosition,
 } from "react-toasts";
+
+function SelectListModal({
+  isOpen,
+  onChangeCurrentList,
+  onClose,
+  lists,
+  currentList,
+}) {
+  return (
+    <Modal.Modal title="Selecione a lista" onClose={onClose} isOpen={isOpen}>
+      <Modal.List>
+      <div className="divide-y mt-4 text-lg divide-gray-200">
+        {lists.map(({ id, phoneBase }) => {
+          return (
+            <div
+              className={`px-5 py-4 ${
+                id === currentList ? `text-indigo-400 bg-indigo-100` : null
+              }`}
+              key={id}
+              onClick={() => onChangeCurrentList(id)}
+            >
+              {parsePhoneNumberFromString(phoneBase, "BR").formatNational()}
+            </div>
+          );
+        })}
+      </div>
+      </Modal.List>
+    </Modal.Modal>
+  );
+}
+
+function AddListModal({ isOpen, onClose, onAdd }) {
+  return (
+    <Modal.Modal title="Adicionar nova lista" onClose={onClose} isOpen={isOpen}>
+      <Modal.Content>
+        <AddList onAdd={onAdd} />
+      </Modal.Content>
+    </Modal.Modal>
+  );
+}
 
 function Phone({ people, onSave }) {
   let { phone } = useParams();
@@ -123,6 +165,8 @@ function Phone({ people, onSave }) {
 
 function App() {
   const [lists, setValue] = useLocalStorage("lists", []);
+  const [isListModalOpen, setListModalStatus] = React.useState(false);
+  const [isAddModalOpen, setAddModalStatus] = React.useState(false);
   const [currentList, setCurrentList] = useLocalStorage("currentList", null);
   const activeList = lists.find(({ id }) => id === currentList) || [];
   const handleSave = (phone, values) => {
@@ -143,6 +187,13 @@ function App() {
 
     ToastsStore.success("Alteração feita com sucesso");
   };
+
+  const handleAdd = (phoneBase, people) => {
+    const id = uuidv4();
+    setValue([...lists, { id: id, people: people, phoneBase: phoneBase }]);
+    setCurrentList(id);
+  };
+
   const handleDelete = (listId) => {
     if (lists.length === 1) {
       setCurrentList(null);
@@ -155,15 +206,27 @@ function App() {
 
   return (
     <div className="font-sans container mx-auto py-5 h-full">
+      <SelectListModal
+        onClose={() => setListModalStatus(false)}
+        isOpen={isListModalOpen}
+        lists={lists}
+        onChangeCurrentList={(id) => {
+          setCurrentList(id);
+          setListModalStatus(false);
+        }}
+        currentList={currentList}
+      />
+      <AddListModal
+        onClose={() => setAddModalStatus(false)}
+        onAdd={(phoneBase, people) => {
+          handleAdd(phoneBase, people);
+          setAddModalStatus(false);
+        }}
+        isOpen={isAddModalOpen}
+      />
       <Router>
         {!currentList ? (
-          <Home
-            onAdd={(phoneBase, people) => {
-              const id = uuidv4();
-              setValue([{ id: id, people: people, phoneBase: phoneBase }]);
-              setCurrentList(id);
-            }}
-          />
+          <Home onAdd={handleAdd} />
         ) : (
           <Switch>
             <Route exact path="/">
@@ -172,6 +235,8 @@ function App() {
                 onDelete={handleDelete}
                 id={activeList.id}
                 people={activeList.people}
+                onChangeList={() => setListModalStatus(true)}
+                onAddList={() => setAddModalStatus(true)}
               />
             </Route>
             <Route
