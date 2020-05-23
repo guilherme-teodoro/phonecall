@@ -240,7 +240,7 @@ function App() {
               />
             </Route>
             <Route
-              path="/:phone"
+              path="/list/:listId/:phone"
               children={
                 <Phone people={activeList.people} onSave={handleSave} />
               }

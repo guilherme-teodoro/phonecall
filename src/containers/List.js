@@ -110,7 +110,7 @@ export default ({
           .map((person) => {
             return (
               <Link
-                to={`/${person.phone}`}
+                to={`/list/${id}/${person.phone}`}
                 key={person.phone}
                 className="block px-4 py-52 text-gray-700 py-4"
               >
@@ -145,7 +145,7 @@ export default ({
           type="button"
           className="block p-3 w-full bg-red-600 text-center text-white rounded"
         >
-          Limpar
+          Excluir lista
         </button>
       </div>
     </>
