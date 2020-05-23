@@ -23,7 +23,7 @@ export default ({ onAdd, showAlert }) => {
         <Label>Telefone inicial da sequencia</Label>
         <Input
           name="phoneBase"
-          placeholder="Ex. 11963350000"
+          placeholder="Ex. 963350000"
           ref={register({
             required: "Obrigatório",
             pattern: {
@@ -36,7 +36,7 @@ export default ({ onAdd, showAlert }) => {
       </Field>
       {showAlert && (
         <Alert>
-          Coloque o primeiro número de celular da sua sequencia junto com o DDD
+          Coloque o primeiro número de celular da sua sequencia
           e o programa vai gerar uma lista com{" "}
           <span className="font-bold">100 números</span>. Por exemplo,
           11963351600
