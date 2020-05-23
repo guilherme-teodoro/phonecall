@@ -4,33 +4,17 @@ import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { AiOutlineDown, AiOutlineFilter } from "react-icons/ai";
 import { FiCode } from "react-icons/fi";
 import Layout from "../components/Layout";
+import status from "../status";
 import Button from "../components/Button";
 
-function StatusBadge({ status }) {
-  if (!status) {
+function StatusBadge(props) {
+  if (!props.status) {
     return null;
   }
 
   return (
     <div className="ml-3 rounded-full px-2 bg-gray-200 text-gray-700">
-      {(() => {
-        switch (status) {
-          case "naoExiste":
-            return "Não existe";
-          case "revisita":
-            return "Revisita";
-          case "estudo":
-            return "Estudo";
-          case "opacudo":
-            return "Ocupado";
-          case "naoLigar":
-            return "Não ligar";
-          case "crianca":
-            return "Criança";
-          default:
-            return "";
-        }
-      })()}
+      {status.list.find(({ id }) => props.status === id).label || ""}
     </div>
   );
 }
@@ -86,13 +70,11 @@ export default ({
               className="p-3 pl-10 bg-transparent border border-gray-400 rounded shadow-sm appearance-none w-full"
               value={filter}
             >
-              <option value="all">Todos</option>
-              <option value="naoExiste">Não existe</option>
-              <option value="revisita">Revisita</option>
-              <option value="estudo">Estudo</option>
-              <option value="opacudo">Ocupado</option>
-              <option value="naoLigar">Não ligar</option>
-              <option value="crianca">Criança</option>
+              {status.filterOptions.map(({ label, value }) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
             </select>
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
               <AiOutlineDown />
