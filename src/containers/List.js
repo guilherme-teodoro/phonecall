@@ -111,7 +111,7 @@ export default ({
                   </div>
                 )}
                 <div className="flex">
-                  <div className={`${person.name ? "" : "text-lg"}`}>
+                  <div className={`flex-auto ${person.name ? "" : "text-lg"}`}>
                     {parsePhoneNumberFromString(
                       person.phone,
                       "BR"
