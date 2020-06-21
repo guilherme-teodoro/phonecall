@@ -2,10 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { AiOutlineDown, AiOutlineFilter } from "react-icons/ai";
+import { useLocalStorage } from "../hooks";
 import { FiCode } from "react-icons/fi";
 import Layout from "../components/Layout";
 import status from "../status";
 import Button from "../components/Button";
+import Modal from "../components/Modal";
 import cx from "classnames";
 
 function StatusBadge(props) {
@@ -37,6 +39,8 @@ export default ({
   onAddList,
 }) => {
   const [filter, setFilter] = React.useState("all");
+  const [hideNaoExiste, setHideNaoExiste] = useLocalStorage("hideSettingsModal", false);
+  const [isSettingsModalOpen, setSettingsModalStatus] = React.useState(false);
 
   return (
     <>
@@ -69,7 +73,8 @@ export default ({
         </div>
       </header>
       <div className="divide-y mt-3 divide-gray-200">
-        <div className="mt-12 mb-4 px-4">
+        <div className="flex items-center mt-12 mb-4 px-4">
+        <div className="flex-auto">
           <div className="relative">
             <div className="pointer-events-none absolute inset-y-0 ml-2 left-0 flex items-center px-2 text-gray-700">
               <AiOutlineFilter />
@@ -90,38 +95,49 @@ export default ({
             </div>
           </div>
         </div>
+          <div className="flex-none ml-4">
+            <Button.Dots onClick={() => setSettingsModalStatus(true)} />
+          </div>
+        </div>
         {people
-          .filter((p) => {
-            if (filter === "all") {
-              return p;
-            }
+         .filter((p) => {
+           if (filter === "all") {
+             return p;
+           }
 
-            return p.status === filter;
-          })
-          .map((person) => {
-            return (
-              <Link
-                to={`/list/${id}/${person.phone}`}
-                key={person.phone}
-                className={'block px-4 py-52 text-gray-700 py-4'}
-              >
-                {person.name && (
-                  <div className="mb-3 font-bold text-lg text-gray-700">
-                    {person.name}
-                  </div>
-                )}
-                <div className={cx("flex items-center ", {'opacity-25': person.status === 'naoExiste'})}>
-                  <div className={cx("flex-auto", {"text-lg": person.name})}>
-                    {parsePhoneNumberFromString(
-                      person.phone,
-                      "BR"
-                    ).formatNational()}
-                  </div>
-                  <StatusBadge status={person.status} />
-                </div>
-              </Link>
-            );
-          })}
+           return p.status === filter;
+         })
+         .filter((p) => {
+           if (hideNaoExiste && p.status === "naoExiste") {
+             return false;
+           }
+
+           return true;
+         })
+         .map((person) => {
+           return (
+             <Link
+               to={`/list/${id}/${person.phone}`}
+               key={person.phone}
+               className={'block px-4 py-52 text-gray-700 py-4'}
+             >
+               {person.name && (
+                 <div className="mb-3 font-bold text-lg text-gray-700">
+                   {person.name}
+                 </div>
+               )}
+               <div className={cx("flex items-center ", {'opacity-25': person.status === 'naoExiste'})}>
+                 <div className={cx("flex-auto", {"text-lg": person.name})}>
+                   {parsePhoneNumberFromString(
+                     person.phone,
+                     "BR"
+                   ).formatNational()}
+                 </div>
+                 <StatusBadge status={person.status} />
+               </div>
+             </Link>
+           );
+         })}
       </div>
       <div className="px-4 mt-5">
         <button
@@ -139,6 +155,13 @@ export default ({
           Excluir lista
         </button>
       </div>
+      <Modal.Modal title="Opções" isOpen={isSettingsModalOpen} onClose={() => setSettingsModalStatus(false)}>
+        <Modal.List>
+          <Modal.ListItem selected={hideNaoExiste} onClick={() => setHideNaoExiste(!hideNaoExiste)}>
+            Ocultar telefones "Não existe"
+          </Modal.ListItem>
+        </Modal.List>
+      </Modal.Modal>
     </>
   );
 };

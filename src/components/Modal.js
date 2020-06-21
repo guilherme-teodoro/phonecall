@@ -1,7 +1,8 @@
 import React from "react";
 import Layout from "./Layout";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaCheck } from "react-icons/fa";
 import { useSpring, animated } from "react-spring";
+import cx from "classnames";
 
 export const Modal = ({ title, isOpen, onClose, children }) => {
   const props = useSpring({
@@ -45,11 +46,22 @@ export const Content = ({ children }) => {
 };
 
 export const List = ({ children }) => {
-  return <div className="flex-auto overflow-y-auto">{children} </div>;
+  return <div className="flex-auto overflow-y-auto divide-y mt-4 text-lg divide-gray-200">{children}</div>;
+};
+
+export const ListItem = ({ onClick, selected, children }) => {
+  return (
+    <div
+      className={cx("relative px-5 py-4", {"text-indigo-400 bg-indigo-100": selected})}
+      onClick={onClick}>
+      {children}
+      {selected && <div className="absolute right-0 top-0 mr-5 mt-5"><FaCheck /></div>}
+    </div>);
 };
 
 export default {
   Modal: Modal,
   Content: Content,
-  List: List
+  List: List,
+  ListItem: ListItem
 };

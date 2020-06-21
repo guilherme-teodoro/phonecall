@@ -41,21 +41,17 @@ function SelectListModal({
   return (
     <Modal.Modal title="Selecione a lista" onClose={onClose} isOpen={isOpen}>
       <Modal.List>
-        <div className="divide-y mt-4 text-lg divide-gray-200">
           {lists.map(({ id, phoneBase }) => {
             return (
-              <div
-                className={`px-5 py-4 ${
-                  id === currentList ? `text-indigo-400 bg-indigo-100` : null
-                }`}
+              <Modal.ListItem
+                selected={id === currentList}
                 key={id}
                 onClick={() => onChangeCurrentList(id)}
               >
                 {parsePhoneNumberFromString(phoneBase, "BR").formatNational()}
-              </div>
+              </Modal.ListItem>
             );
           })}
-        </div>
       </Modal.List>
     </Modal.Modal>
   );

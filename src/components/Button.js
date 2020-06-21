@@ -1,4 +1,5 @@
 import React from "react";
+import { BsThreeDots } from "react-icons/bs";
 import { GoPlus } from "react-icons/go";
 
 export const PrimarySolid = ({ onClick, children, type }) => {
@@ -25,8 +26,21 @@ export const Add = ({ onClick }) => {
   );
 };
 
+export const Dots = ({ onClick }) => {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="flex items-center px-2 py-4 justify-center border-none text-indigo-400 block"
+    >
+      <BsThreeDots className="text-xl" />
+    </button>
+  );
+};
+
 
 export default {
   PrimarySolid: PrimarySolid,
-  Add: Add
+  Add: Add,
+  Dots: Dots
 }
