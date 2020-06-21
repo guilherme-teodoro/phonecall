@@ -25,11 +25,6 @@ import {
 } from "react-icons/ai";
 import status from "./status";
 import { v4 as uuidv4 } from "uuid";
-import {
-  ToastsContainer,
-  ToastsStore,
-  ToastsContainerPosition,
-} from "react-toasts";
 
 function SelectListModal({
   isOpen,
@@ -161,7 +156,7 @@ function Phone({ people, onSave }) {
           />
         </Field>
         <div className="fixed bottom-0 w-full p-4 bg-white right-0 border-t border-gray-200">
-          <Button.PrimarySolid type="submit">Salvar</Button.PrimarySolid>
+          <Button.Save />
         </div>
       </Form>
     </div>
@@ -189,8 +184,6 @@ function App() {
         return list;
       })
     );
-
-    ToastsStore.success("Alteração feita com sucesso");
   };
 
   const handleAdd = (phoneBase, people) => {
@@ -267,10 +260,6 @@ function App() {
           Reportar problemas ou sugestões
         </a>
       </footer>
-      <ToastsContainer
-        store={ToastsStore}
-        position={ToastsContainerPosition.BOTTOM_CENTER}
-      />
     </div>
   );
 }

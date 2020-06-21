@@ -1,6 +1,8 @@
 import React from "react";
 import { BsThreeDots } from "react-icons/bs";
+import { FaCheck } from "react-icons/fa";
 import { GoPlus } from "react-icons/go";
+import cx from "classnames";
 
 export const PrimarySolid = ({ onClick, children, type }) => {
   return (
@@ -10,6 +12,28 @@ export const PrimarySolid = ({ onClick, children, type }) => {
       className="uppercase bg-indigo-600 py-3 rounded-lg text-white w-full block"
     >
       {children}
+    </button>
+  );
+};
+
+export const Save = () => {
+  const [isSaving, setSaving] = React.useState(false);
+
+  React.useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setSaving(false);
+    }, 3000);
+    return () => window.clearTimeout(timer);
+  }, [isSaving]);
+
+  return (
+    <button
+      type="submit"
+      onClick={() => setSaving(true)}
+      className={cx("transition-bg ease-in flex items-center justify-center text-center h-12 duration-400 uppercase py-3 rounded-lg text-white w-full block",
+                    {"bg-indigo-600": !isSaving, "bg-green-600": isSaving})}
+    >
+      { isSaving ? <FaCheck /> : "Salvar" }
     </button>
   );
 };
@@ -38,9 +62,9 @@ export const Dots = ({ onClick }) => {
   );
 };
 
-
 export default {
   PrimarySolid: PrimarySolid,
+  Save: Save,
   Add: Add,
   Dots: Dots
-}
+};
