@@ -13,12 +13,12 @@ function StatusBadge(props) {
     return null;
   }
 
-  const {label, color} = status.list.find(({ id }) => props.status === id)
+  const {label, color} = status.list.find(({ id }) => props.status === id);
 
-  let style = `ml-3 rounded-full px-2 bg-${color}-200 text-${color}-700`;
+  let style = `rounded-full px-2 bg-${color}-200 text-sm text-${color}-700`;
 
   if (color === 'black') {
-    style = `ml-3 rounded-full px-2 bg-gray-900 text-white`;
+    style = `rounded-full text-sm px-2 bg-gray-900 text-white`;
   }
 
   return (
@@ -103,15 +103,15 @@ export default ({
               <Link
                 to={`/list/${id}/${person.phone}`}
                 key={person.phone}
-                className={cx('block px-4 py-52 text-gray-700 py-4', {'opacity-25': person.status === 'naoExiste'})}
+                className={'block px-4 py-52 text-gray-700 py-4'}
               >
                 {person.name && (
                   <div className="mb-3 font-bold text-lg text-gray-700">
                     {person.name}
                   </div>
                 )}
-                <div className="flex">
-                  <div className={`flex-auto ${person.name ? "" : "text-lg"}`}>
+                <div className={cx("flex items-center ", {'opacity-25': person.status === 'naoExiste'})}>
+                  <div className={cx("flex-auto", {"text-lg": person.name})}>
                     {parsePhoneNumberFromString(
                       person.phone,
                       "BR"
