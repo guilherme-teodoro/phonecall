@@ -7,6 +7,7 @@ import {
   Route,
   Link,
   useParams,
+  Prompt
 } from "react-router-dom";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { Form, Input, Label, Field, Textarea } from "./components/Form";
@@ -73,13 +74,17 @@ function AddListModal({ isOpen, onClose, onAdd }) {
 function Phone({ people, onSave }) {
   let { phone } = useParams();
   const person = people.find((p) => p.phone === phone);
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, formState, register } = useForm();
   const onSubmit = (values) => {
     onSave(phone, values);
   };
 
   return (
-    <div className="text-gray-700 px-4">
+    <div className="text-gray-700 px-4 pb-8">
+      <Prompt
+        when={!formState.isSubmitted && formState.dirty}
+        message="Você não salvou os dados. Deseja realmente sair?"
+      />
       <Layout.Title className="flex items-center mb-5">
         <Link className="mr-3" to="/">
           <AiOutlineArrowLeft className="text-gray-700" />
@@ -131,6 +136,7 @@ function Phone({ people, onSave }) {
           <Label htmlFor="name">Nome</Label>
           <Input
             name="name"
+            placeholder="Sr. Fulano"
             id="name"
             defaultValue={person.name}
             ref={register}
@@ -152,12 +158,15 @@ function Phone({ people, onSave }) {
           <Textarea
             name="notes"
             id="notes"
+            placeholder="Ele foi muito atencioso..."
             rows="5"
             defaultValue={person.notes}
             ref={register}
           />
         </Field>
-        <Button.PrimarySolid type="submit">Salvar</Button.PrimarySolid>
+        <div className="fixed bottom-0 w-full p-4 bg-white right-0 border-t border-gray-200">
+          <Button.PrimarySolid type="submit">Salvar</Button.PrimarySolid>
+        </div>
       </Form>
     </div>
   );

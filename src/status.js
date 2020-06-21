@@ -1,13 +1,14 @@
 const list = [
-  { id: "naoExiste", label: "Não existe" },
-  { id: "revisita", label: "Primeira revisita" },
-  { id: "segRevisita", label: "Segunda revisita" },
-  { id: "terRevisita", label: "Terceira revisita" },
-  { id: "estudo", label: "Estudo" },
-  { id: "opacudo", label: "Ocupado" },
-  { id: "naoLigar", label: "Não ligar" },
-  { id: "crianca", label: "Criança" },
-  { id: "caixaPostal", label: "Caixa Postal"}
+  { id: "caixaPostal", label: "Caixa Postal", color: "pink"},
+  { id: "naoExiste", label: "Não existe", color: "black" },
+  { id: "revisita", label: "Primeira revisita", color: "green" },
+  { id: "segRevisita", label: "Segunda revisita", color: "teal" },
+  { id: "terRevisita", label: "Terceira revisita", color: "purple" },
+  { id: "estudo", label: "Estudo", color: "blue"},
+  { id: "opacudo", label: "Ocupado", color: "indigo"},
+  { id: "naoLigar", label: "Não ligar", color: "red" },
+  { id: "crianca", label: "Criança", color: "gray" },
+  { id: "semInteresse", label: "Sem interesse", color: "indigo" }
 ];
 
 const options = list.map(({ id, label }) => ({ label, value: id }));

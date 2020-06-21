@@ -6,15 +6,24 @@ import { FiCode } from "react-icons/fi";
 import Layout from "../components/Layout";
 import status from "../status";
 import Button from "../components/Button";
+import cx from "classnames";
 
 function StatusBadge(props) {
   if (!props.status) {
     return null;
   }
 
+  const {label, color} = status.list.find(({ id }) => props.status === id)
+
+  let style = `ml-3 rounded-full px-2 bg-${color}-200 text-${color}-700`;
+
+  if (color === 'black') {
+    style = `ml-3 rounded-full px-2 bg-gray-900 text-white`;
+  }
+
   return (
-    <div className="ml-3 rounded-full px-2 bg-gray-200 text-gray-700">
-      {status.list.find(({ id }) => props.status === id).label || ""}
+    <div className={style}>
+      {label}
     </div>
   );
 }
@@ -94,7 +103,7 @@ export default ({
               <Link
                 to={`/list/${id}/${person.phone}`}
                 key={person.phone}
-                className="block px-4 py-52 text-gray-700 py-4"
+                className={cx('block px-4 py-52 text-gray-700 py-4', {'opacity-25': person.status === 'naoExiste'})}
               >
                 {person.name && (
                   <div className="mb-3 font-bold text-lg text-gray-700">
