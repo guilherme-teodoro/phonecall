@@ -119,7 +119,7 @@ export default ({
              <Link
                to={`/list/${id}/${person.phone}`}
                key={person.phone}
-               className={'block px-4 py-52 text-gray-700 py-4'}
+               className={'block even:bg-gray-100 px-4 py-5 text-gray-700 py-4'}
              >
                {person.name && (
                  <div className="mb-3 font-bold text-lg text-gray-700">
