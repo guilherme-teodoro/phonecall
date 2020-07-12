@@ -169,6 +169,7 @@ function App() {
   const [isAddModalOpen, setAddModalStatus] = React.useState(false);
   const [currentList, setCurrentList] = useLocalStorage("currentList", null);
   const activeList = lists.find(({ id }) => id === currentList) || [];
+
   const handleSave = (phone, values) => {
     setValue(
       lists.map((list) => {
@@ -196,13 +197,14 @@ function App() {
     if (lists.length === 1) {
       setCurrentList(null);
     } else {
-      setCurrentList(lists[1].id);
+      const index = lists.findIndex(({id }) => id === listId);
+      setCurrentList(lists[index - 1].id);
     }
 
     setValue(lists.filter(({ id }) => id !== listId));
   };
 
-  return (
+  /*return (
     <div className="font-sans container mx-auto py-5 h-full">
       <SelectListModal
         onClose={() => setListModalStatus(false)}
@@ -261,6 +263,10 @@ function App() {
         </a>
       </footer>
     </div>
+  );*/
+
+  return (
+    <button onClick={() => setCurrentList(lists[0].id)}>Arruma</button>
   );
 }
 
