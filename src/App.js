@@ -204,7 +204,7 @@ function App() {
     setValue(lists.filter(({ id }) => id !== listId));
   };
 
-  /*return (
+  return (
     <div className="font-sans container mx-auto py-5 h-full">
       <SelectListModal
         onClose={() => setListModalStatus(false)}
@@ -263,10 +263,6 @@ function App() {
         </a>
       </footer>
     </div>
-  );*/
-
-  return (
-    <button onClick={() => setCurrentList(lists[0].id)}>Arruma</button>
   );
 }
 
