@@ -9,8 +9,6 @@ import status from "../status";
 import Button from "../components/Button";
 import Modal from "../components/Modal";
 import cx from "classnames";
-import { PrivateBinClient } from '@agc93/privatebin'
-
 
 function StatusBadge(props) {
   if (!props.status) {
