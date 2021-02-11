@@ -9,6 +9,8 @@ import status from "../status";
 import Button from "../components/Button";
 import Modal from "../components/Modal";
 import cx from "classnames";
+import { PrivateBinClient } from '@agc93/privatebin'
+
 
 function StatusBadge(props) {
   if (!props.status) {
@@ -41,6 +43,11 @@ export default ({
   const [filter, setFilter] = React.useState("all");
   const [hideNaoExiste, setHideNaoExiste] = useLocalStorage("hideSettingsModal", false);
   const [isSettingsModalOpen, setSettingsModalStatus] = React.useState(false);
+
+  const handleExport = async () => {
+    const lists = localStorage.getItem('lists')
+    navigator.clipboard.writeText(lists)
+  }
 
   return (
     <>
@@ -159,6 +166,9 @@ export default ({
         <Modal.List>
           <Modal.ListItem selected={hideNaoExiste} onClick={() => setHideNaoExiste(!hideNaoExiste)}>
             Ocultar telefones "Não existe"
+          </Modal.ListItem>
+          <Modal.ListItem onClick={() => handleExport(!hideNaoExiste)}>
+            Exportar
           </Modal.ListItem>
         </Modal.List>
       </Modal.Modal>
