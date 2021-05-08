@@ -15,7 +15,7 @@ function StatusBadge(props) {
     return null;
   }
 
-  const {label, color} = status.list.find(({ id }) => props.status === id);
+  const { label, color } = status.list.find(({ id }) => props.status === id);
 
   let style = `rounded-full px-2 bg-${color}-200 text-sm text-${color}-700`;
 
@@ -47,11 +47,20 @@ export default ({
     navigator.clipboard.writeText(lists)
   }
 
+  const handleImport = async () => {
+    const text = JSON.parse(document.querySelector('#importArea').value)
+    const currentState = JSON.parse(localStorage.getItem('lists'))
+    const newState = [...currentState, ...text]
+    localStorage.setItem('lists', JSON.stringify(newState))
+  }
+
   return (
     <>
       <header className="px-4 pt-5">
         <div className="space-y-4">
           <div className="space-y-2">
+            <textarea className="border border-black" id="importArea" />
+            <button onClick={() => handleImport()}>Importar</button>
             <Layout.Subtitle>Lista de números</Layout.Subtitle>
             <div className="flex items-center">
               <div className="flex-auto">
