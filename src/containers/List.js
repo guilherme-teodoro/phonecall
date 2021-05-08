@@ -52,6 +52,8 @@ export default ({
     const currentState = JSON.parse(localStorage.getItem('lists'))
     const newState = [...currentState, ...text]
     localStorage.setItem('lists', JSON.stringify(newState))
+    // <textarea className="border border-black" id="importArea" />
+    // <button onClick={() => handleImport()}>Importar</button>
   }
 
   return (
@@ -59,8 +61,6 @@ export default ({
       <header className="px-4 pt-5">
         <div className="space-y-4">
           <div className="space-y-2">
-            <textarea className="border border-black" id="importArea" />
-            <button onClick={() => handleImport()}>Importar</button>
             <Layout.Subtitle>Lista de números</Layout.Subtitle>
             <div className="flex items-center">
               <div className="flex-auto">
